@@ -48,14 +48,26 @@ var createTaskEl = function(taskDataObj){
     //give it a class name
     taskInfoEl.className = "task-info";
     //add html content to div
+
     taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
     listItemEl.appendChild(taskInfoEl);
     var taskActionsEl = createTaskActions(taskIdCounter);
     listItemEl.appendChild(taskActionsEl);
     
-    //add entire list item to list
-    tasksToDoEl.appendChild(listItemEl);
-
+    //check the status of the task
+    if (taskDataObj.status === "to do"){
+        listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
+        tasksToDoEl.appendChild(listItemEl);
+    }else if (taskDataObj.status === "in progress"){
+        listItemEl.querySelector("select[name='status-change']").selectedIndex = 1;
+        tasksInProgressEl.appendChild(listItemEl);
+    }else if (taskDataObj.status === "completed"){
+        listItemEl.querySelector("select[name='status-change']").selectedIndex = 2;
+        tasksCompletedEl.appendChild(listItemEl);
+    }else{
+        tasksToDoEl.appendChild(listItemEl);
+    }
+   
     taskDataObj.id = taskIdCounter;
     tasks.push(taskDataObj);
     saveTasks();
@@ -201,8 +213,7 @@ var saveTasks = function(){
 
 var loadTasks = function(){
     var savedTasks = localStorage.getItem("tasks");
-    if (!tasks){
-        tasks = [];
+    if (!savedTasks){
         return false;
     }
     savedTasks = JSON.parse(savedTasks);
