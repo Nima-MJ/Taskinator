@@ -1,4 +1,4 @@
-# Run Buddy, Inc
+# Taskinator
 
 ## Purpose
 A website that offers keeping track of your tasks and making sure you're on top of your schedule!!
